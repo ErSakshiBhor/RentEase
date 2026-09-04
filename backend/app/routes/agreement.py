@@ -129,3 +129,139 @@ def create_agreement():
         "message": "Rental agreement created successfully",
         "agreement_id": str(result.inserted_id)
     }), 201
+
+
+
+@agreement_bp.route("/", methods=["GET"])
+@jwt_required()
+def get_agreements():
+    current_user_id = get_jwt_identity()
+    claims = get_jwt()
+
+    if claims.get("role") != "owner":
+        return jsonify({"message": "Only owners can view agreements"}), 403
+
+    db = agreement_bp.db
+
+    agreements = db.rental_agreements.find({
+        "owner_id": current_user_id
+    })
+
+    result = []
+
+    for agreement in agreements:
+        result.append({
+            "id": str(agreement["_id"]),
+            "unit_id": agreement["unit_id"],
+            "tenant_id": agreement["tenant_id"],
+            "start_date": agreement["start_date"],
+            "end_date": agreement["end_date"],
+            "monthly_rent": agreement["monthly_rent"],
+            "security_deposit": agreement["security_deposit"],
+            "status": agreement["status"]
+        })
+
+    return jsonify({
+        "agreements": result
+    }), 200
+
+
+
+
+@agreement_bp.route("/<agreement_id>", methods=["PUT"])
+@jwt_required()
+def update_agreement(agreement_id):
+    current_user_id = get_jwt_identity()
+    claims = get_jwt()
+
+    if claims.get("role") != "owner":
+        return jsonify({"message": "Only owners can update agreements"}), 403
+
+    if not ObjectId.is_valid(agreement_id):
+        return jsonify({"message": "Invalid agreement ID"}), 400
+
+    data = request.get_json()
+    db = agreement_bp.db
+
+    agreement = db.rental_agreements.find_one({
+        "_id": ObjectId(agreement_id),
+        "owner_id": current_user_id
+    })
+
+    if not agreement:
+        return jsonify({"message": "Agreement not found"}), 404
+
+    update_data = {}
+
+    if "monthly_rent" in data:
+        update_data["monthly_rent"] = data["monthly_rent"]
+
+    if "security_deposit" in data:
+        update_data["security_deposit"] = data["security_deposit"]
+
+    if "start_date" in data:
+        update_data["start_date"] = data["start_date"]
+
+    if "end_date" in data:
+        update_data["end_date"] = data["end_date"]
+
+    if "status" in data:
+        update_data["status"] = data["status"]
+
+    if not update_data:
+        return jsonify({"message": "No fields to update"}), 400
+
+    db.rental_agreements.update_one(
+        {"_id": ObjectId(agreement_id)},
+        {"$set": update_data}
+    )
+
+    return jsonify({
+        "message": "Rental agreement updated successfully"
+    }), 200
+
+
+
+
+
+@agreement_bp.route("/<agreement_id>/terminate", methods=["PUT"])
+@jwt_required()
+def terminate_agreement(agreement_id):
+    current_user_id = get_jwt_identity()
+    claims = get_jwt()
+
+    if claims.get("role") != "owner":
+        return jsonify({
+            "message": "Only owners can terminate agreements"
+        }), 403
+
+    if not ObjectId.is_valid(agreement_id):
+        return jsonify({
+            "message": "Invalid agreement ID"
+        }), 400
+
+    db = agreement_bp.db
+
+    agreement = db.rental_agreements.find_one({
+        "_id": ObjectId(agreement_id),
+        "owner_id": current_user_id
+    })
+
+    if not agreement:
+        return jsonify({
+            "message": "Agreement not found"
+        }), 404
+
+    if agreement.get("status") == "terminated":
+        return jsonify({
+            "message": "Agreement is already terminated"
+        }), 400
+
+    db.rental_agreements.update_one(
+        {"_id": ObjectId(agreement_id)},
+        {"$set": {"status": "terminated"}}
+    )
+
+    return jsonify({
+        "message": "Rental agreement terminated successfully"
+    }), 200

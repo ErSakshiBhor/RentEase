@@ -6,9 +6,10 @@ from app.routes.property import property_bp
 from app.routes.unit import unit_bp
 from app.routes.tenant import tenant_bp
 from app.routes.agreement import agreement_bp
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 # Connect to MongoDB
 client = MongoClient("mongodb://localhost:27017/")
 

@@ -1,0 +1,461 @@
+/* =========================================
+   Payments Page
+========================================= */
+
+.payments-page {
+    min-height: calc(100vh - 72px);
+    background: #F8FAFD;
+    padding: 40px 24px 60px;
+    color: #26344A;
+}
+
+
+/* =========================================
+   Header
+========================================= */
+
+.payments-header {
+    max-width: 1100px;
+    margin: 0 auto 30px;
+}
+
+.payments-header h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+    color: #26344A;
+}
+
+.payments-header p {
+    margin: 8px 0 0;
+    color: #718096;
+    font-size: 15px;
+}
+
+
+/* =========================================
+   Messages
+========================================= */
+
+.payment-message {
+    max-width: 1100px;
+    margin: 0 auto 24px;
+    padding: 13px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.payment-message span {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.payment-message.success {
+    background: #ECF9F3;
+    color: #3F916D;
+    border: 1px solid #CBEBDD;
+}
+
+.payment-message.error {
+    background: #FFF0F0;
+    color: #C75A5A;
+    border: 1px solid #F2D0D0;
+}
+
+
+/* =========================================
+   Common Section
+========================================= */
+
+.record-payment-section,
+.edit-payment-section,
+.payment-history-section {
+    max-width: 1100px;
+    margin: 0 auto 30px;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 4px 14px rgba(108, 156, 235, 0.08);
+}
+
+.section-heading {
+    margin-bottom: 24px;
+}
+
+.section-heading h2 {
+    margin: 0;
+    font-size: 21px;
+    font-weight: 650;
+    color: #26344A;
+}
+
+.section-heading p {
+    margin: 7px 0 0;
+    font-size: 14px;
+    color: #718096;
+}
+
+
+/* =========================================
+   Payment Form
+========================================= */
+
+.payment-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #4A5568;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    border: 1px solid #D9E2EF;
+    border-radius: 9px;
+    background: #FFFFFF;
+    color: #26344A;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.form-group input::placeholder {
+    color: #A0AEC0;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #6C9CEB;
+    box-shadow: 0 0 0 3px rgba(108, 156, 235, 0.12);
+}
+
+
+/* Read-only tenant field */
+
+.form-group input[readonly] {
+    background: #F8FAFD;
+    color: #718096;
+    cursor: default;
+}
+
+
+/* =========================================
+   Main Record Button
+========================================= */
+
+.record-payment-button {
+    grid-column: 1 / -1;
+    width: fit-content;
+    border: none;
+    border-radius: 9px;
+    padding: 12px 22px;
+    background: #6C9CEB;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.record-payment-button:hover {
+    background: #5D8DDE;
+    transform: translateY(-1px);
+}
+
+.record-payment-button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+/* =========================================
+   Edit Payment
+========================================= */
+
+.edit-payment-section {
+    border-left: 4px solid #6C9CEB;
+}
+
+.edit-form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.update-payment-button,
+.cancel-payment-button {
+    border: none;
+    border-radius: 9px;
+    padding: 11px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.update-payment-button {
+    background: #6C9CEB;
+    color: #FFFFFF;
+}
+
+.update-payment-button:hover {
+    background: #5D8DDE;
+}
+
+.cancel-payment-button {
+    background: #E2E8F0;
+    color: #26344A;
+}
+
+.cancel-payment-button:hover {
+    background: #D7DFEA;
+}
+
+
+/* =========================================
+   Payment History Grid
+========================================= */
+
+.payments-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+
+/* =========================================
+   Payment Card
+========================================= */
+
+.payment-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 22px;
+    transition: all 0.2s ease;
+}
+
+.payment-card:hover {
+    box-shadow: 0 6px 18px rgba(108, 156, 235, 0.10);
+    transform: translateY(-2px);
+}
+
+
+/* =========================================
+   Payment Card Header
+========================================= */
+
+.payment-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.payment-top h2 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 650;
+    color: #26344A;
+}
+
+
+/* =========================================
+   Payment Status
+========================================= */
+
+.payment-status {
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.payment-status.paid {
+    background: #ECF9F3;
+    color: #3F916D;
+}
+
+.payment-status.pending {
+    background: #FFF7E5;
+    color: #B58424;
+}
+
+
+/* =========================================
+   Payment Details
+========================================= */
+
+.payment-details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.payment-details > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.payment-details span {
+    font-size: 12px;
+    color: #718096;
+}
+
+.payment-details strong {
+    font-size: 14px;
+    font-weight: 600;
+    color: #26344A;
+    word-break: break-word;
+}
+
+
+/* =========================================
+   Payment Actions
+========================================= */
+
+.payment-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid #E2E8F0;
+}
+
+.edit-payment-button,
+.delete-payment-button {
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.edit-payment-button {
+    background: #EAF2FF;
+    color: #527FC8;
+}
+
+.edit-payment-button:hover {
+    background: #DCEAFF;
+}
+
+.delete-payment-button {
+    background: #FFF0F0;
+    color: #C75A5A;
+}
+
+.delete-payment-button:hover {
+    background: #FFE2E2;
+}
+
+
+/* =========================================
+   Empty State
+========================================= */
+
+.empty-state {
+    text-align: center;
+    padding: 45px 20px;
+    background: #F8FAFD;
+    border: 1px dashed #D9E2EF;
+    border-radius: 12px;
+}
+
+.empty-state h2 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    color: #26344A;
+}
+
+.empty-state p {
+    margin: 0;
+    color: #718096;
+    font-size: 14px;
+}
+
+
+/* =========================================
+   Loading
+========================================= */
+
+.loading-message {
+    max-width: 1100px;
+    margin: 100px auto;
+    text-align: center;
+    color: #718096;
+    font-size: 15px;
+}
+
+
+/* =========================================
+   Responsive Design
+========================================= */
+
+@media (max-width: 768px) {
+
+    .payments-page {
+        padding: 25px 16px 40px;
+    }
+
+    .payments-header h1 {
+        font-size: 27px;
+    }
+
+    .record-payment-section,
+    .edit-payment-section,
+    .payment-history-section {
+        padding: 20px;
+    }
+
+    .payment-form {
+        grid-template-columns: 1fr;
+    }
+
+    .payments-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-details {
+        grid-template-columns: 1fr;
+    }
+
+    .record-payment-button {
+        width: 100%;
+    }
+
+    .edit-form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .update-payment-button,
+    .cancel-payment-button {
+        width: 100%;
+    }
+}

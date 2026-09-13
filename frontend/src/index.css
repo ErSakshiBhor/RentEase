@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;
@@ -107,4 +107,50 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+} */
+
+
+
+
+:root {
+  --primary: #6c9ceb;
+  --primary-light: #eaf2ff;
+  --secondary: #ede9fe;
+
+  --background: #f8fafd;
+  --card: #ffffff;
+
+  --text: #26344a;
+  --text-light: #718096;
+
+  --border: #e2e8f0;
+
+  --success: #70c7a1;
+  --warning: #f2c879;
+  --error: #e88989;
+
+  font-family: Arial, sans-serif;
+  color: var(--text);
+  background: var(--background);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--background);
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
 }

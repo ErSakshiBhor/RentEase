@@ -15,12 +15,14 @@ const Login = () => {
         password,
       });
 
-      console.log(response.data);
+      //console.log(response.data);
+      console.log("LOGIN RESPONSE:", JSON.stringify(response.data, null, 2));
 
-      localStorage.setItem("token", response.data.access_token);
+      //localStorage.setItem("token", response.data.access_token);
+      localStorage.setItem("token", response.data.token);
 
       alert("Login successful!");
-    } catch (error) {
+    } catch (error) { 
       console.log(error);
       alert(error.response?.data?.message || "Login failed");
     }

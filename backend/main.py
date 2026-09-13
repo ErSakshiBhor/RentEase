@@ -7,6 +7,8 @@ from app.routes.unit import unit_bp
 from app.routes.tenant import tenant_bp
 from app.routes.agreement import agreement_bp
 from flask_cors import CORS
+from app.routes.dashboard import dashboard_bp
+from app.routes.payment import payment_bp
 
 app = Flask(__name__)
 CORS(app)
@@ -23,6 +25,8 @@ property_bp.db = db
 unit_bp.db = db
 tenant_bp.db = db
 agreement_bp.db = db
+dashboard_bp.db = db
+payment_bp.db = db
 
 # JWT configuration
 app.config["JWT_SECRET_KEY"] = "rentease-secret-key"
@@ -36,6 +40,8 @@ app.register_blueprint(property_bp)
 app.register_blueprint(unit_bp)
 app.register_blueprint(tenant_bp)
 app.register_blueprint(agreement_bp)
+app.register_blueprint(dashboard_bp)
+app.register_blueprint(payment_bp)
 
 @app.route("/")
 def home():

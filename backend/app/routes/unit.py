@@ -184,6 +184,9 @@ def update_unit(unit_id):
     if "monthly_rent" in data:
         update_data["monthly_rent"] = data["monthly_rent"]
 
+    if "status" in data:
+        update_data["status"] = data["status"]
+
     if not update_data:
         return jsonify({
             "message": "No fields provided for update"

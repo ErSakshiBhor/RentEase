@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify, current_app
 import bcrypt
-from flask_jwt_extended import create_access_token
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt, get_jwt_identity
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/api/auth")
@@ -108,8 +107,21 @@ def profile():
     current_user_id = get_jwt_identity()
     claims = get_jwt()
 
+    db = auth_bp.db
+
+    user = db.users.find_one({
+        "_id": __import__("bson").ObjectId(current_user_id)
+    })
+
+    if not user:
+        return jsonify({
+            "message": "User not found"
+        }), 404
+
     return jsonify({
         "message": "You are authorized!",
         "user_id": current_user_id,
+        "name": user["name"],
+        "email": user["email"],
         "role": claims["role"]
     }), 200

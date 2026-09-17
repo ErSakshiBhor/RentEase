@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import api from "../services/api";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -15,16 +17,46 @@ const Login = () => {
         password,
       });
 
-      //console.log(response.data);
-      console.log("LOGIN RESPONSE:", JSON.stringify(response.data, null, 2));
+      console.log(
+        "LOGIN RESPONSE:",
+        JSON.stringify(response.data, null, 2)
+      );
 
-      //localStorage.setItem("token", response.data.access_token);
+      // Save token
       localStorage.setItem("token", response.data.token);
 
+      // Get logged-in user's profile and role
+      const profileResponse = await api.get("/auth/profile", {
+        headers: {
+          Authorization: `Bearer ${response.data.token}`,
+        },
+      });
+
+      console.log(
+        "PROFILE RESPONSE:",
+        JSON.stringify(profileResponse.data, null, 2)
+      );
+
+      const role = profileResponse.data.role;
+
+      localStorage.setItem("role", role);
+
       alert("Login successful!");
-    } catch (error) { 
+
+      if (role === "owner") {
+        navigate("/dashboard");
+      } else if (role === "tenant") {
+        navigate("/tenant-dashboard");
+      } else {
+        alert("Invalid user role");
+      }
+
+    } catch (error) {
       console.log(error);
-      alert(error.response?.data?.message || "Login failed");
+
+      alert(
+        error.response?.data?.message || "Login failed"
+      );
     }
   };
 

@@ -23,16 +23,16 @@ const Dashboard = () => {
   const [greeting, setGreeting] = useState("");
 
   const getGreeting = () => {
-  const hour = new Date().getHours();
+    const hour = new Date().getHours();
 
-  if (hour < 12) {
-    return "Good morning";
-  } else if (hour < 17) {
-    return "Good afternoon";
-  } else {
-    return "Good evening";
-  }
-};
+    if (hour < 12) {
+      return "Good morning";
+    } else if (hour < 17) {
+      return "Good afternoon";
+    } else {
+      return "Good evening";
+    }
+  };
 
   useEffect(() => {
     const fetchDashboard = async () => {
@@ -61,7 +61,8 @@ const Dashboard = () => {
         setUserName(profileResponse.data.name);
 
       } catch (error) {
-        console.log(error);
+        console.log("DASHBOARD ERROR:", error);
+        console.log("DASHBOARD ERROR DATA:", error.response?.data);
       }
     };
 
@@ -138,83 +139,83 @@ const Dashboard = () => {
         </div>
 
 
-        
+
 
 
         {/* Financial Stats */}
-<div className="financial-grid">
+        <div className="financial-grid">
 
-  {/* Monthly Rent */}
-  <div className="financial-card">
-    <div className="financial-icon rent-icon">
-      ₹
-    </div>
+          {/* Monthly Rent */}
+          <div className="financial-card">
+            <div className="financial-icon rent-icon">
+              ₹
+            </div>
 
-    <div className="financial-info">
-      <h3>Monthly Rent</h3>
-      <p>
-        ₹{dashboardData.monthly_rent.toLocaleString()}
-      </p>
-    </div>
-  </div>
-
-
-  {/* Active Agreements */}
-  <div className="financial-card">
-    <div className="financial-icon agreement-icon">
-      📄
-    </div>
-
-    <div className="financial-info">
-      <h3>Active Agreements</h3>
-      <p>{dashboardData.active_agreements}</p>
-    </div>
-  </div>
+            <div className="financial-info">
+              <h3>Monthly Rent</h3>
+              <p>
+                ₹{dashboardData.monthly_rent.toLocaleString()}
+              </p>
+            </div>
+          </div>
 
 
-  {/* Total Collected */}
-  <div className="financial-card">
-    <div className="financial-icon collected-icon">
-      💰
-    </div>
+          {/* Active Agreements */}
+          <div className="financial-card">
+            <div className="financial-icon agreement-icon">
+              📄
+            </div>
 
-    <div className="financial-info">
-      <h3>Total Collected</h3>
-      <p>
-        ₹{dashboardData.total_collected.toLocaleString()}
-      </p>
-    </div>
-  </div>
+            <div className="financial-info">
+              <h3>Active Agreements</h3>
+              <p>{dashboardData.active_agreements}</p>
+            </div>
+          </div>
 
 
-  {/* Payments This Month */}
-  <div className="financial-card">
-    <div className="financial-icon month-icon">
-      📅
-    </div>
+          {/* Total Collected */}
+          <div className="financial-card">
+            <div className="financial-icon collected-icon">
+              💰
+            </div>
 
-    <div className="financial-info">
-      <h3>Payments This Month</h3>
-      <p>{dashboardData.payments_this_month}</p>
-    </div>
-  </div>
+            <div className="financial-info">
+              <h3>Total Collected</h3>
+              <p>
+                ₹{dashboardData.total_collected.toLocaleString()}
+              </p>
+            </div>
+          </div>
 
 
-  {/* Pending Payments */}
-  <div className="financial-card">
-    <div className="financial-icon pending-icon">
-      ⏳
-    </div>
+          {/* Payments This Month */}
+          <div className="financial-card">
+            <div className="financial-icon month-icon">
+              📅
+            </div>
 
-    <div className="financial-info">
-      <h3>Pending Payments</h3>
-      <p>
-        ₹{dashboardData.pending_payments.toLocaleString()}
-      </p>
-    </div>
-  </div>
+            <div className="financial-info">
+              <h3>Payments This Month</h3>
+              <p>{dashboardData.payments_this_month}</p>
+            </div>
+          </div>
 
-</div>
+
+          {/* Pending Payments */}
+          <div className="financial-card">
+            <div className="financial-icon pending-icon">
+              ⏳
+            </div>
+
+            <div className="financial-info">
+              <h3>Pending Payments</h3>
+              <p>
+                ₹{dashboardData.pending_payments.toLocaleString()}
+              </p>
+            </div>
+          </div>
+
+        </div>
 
 
         {/* Charts Section */}

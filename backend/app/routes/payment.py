@@ -310,3 +310,117 @@ def delete_payment(payment_id):
     return jsonify({
         "message": "Payment deleted successfully"
     }), 200 
+
+
+
+# ============================================================
+# TENANT - MY PAYMENTS
+# ============================================================
+
+@payment_bp.route("/my-payments", methods=["GET"])
+@jwt_required()
+def get_my_payments():
+
+    current_user_id = get_jwt_identity()
+    claims = get_jwt()
+
+    # Only tenant can access their payments
+    if claims.get("role") != "tenant":
+        return jsonify({
+            "message": "Only tenants can view their payments"
+        }), 403
+
+    db = payment_bp.db
+
+    # Find tenant
+    tenant = db.users.find_one({
+        "_id": ObjectId(current_user_id),
+        "role": "tenant"
+    })
+
+    if not tenant:
+        return jsonify({
+            "message": "Tenant not found"
+        }), 404
+
+    # Find only logged-in tenant's payments
+    payments = db.payments.find({
+        "tenant_id": current_user_id
+    }).sort(
+        "payment_date",
+        -1
+    )
+
+    payment_list = []
+
+    total_paid = 0
+    paid_count = 0
+
+    for payment in payments:
+
+        amount = payment.get(
+            "amount",
+            0
+        )
+
+        status = payment.get(
+            "status",
+            "pending"
+        )
+
+        if status == "paid":
+            total_paid += amount
+            paid_count += 1
+
+        payment_list.append({
+
+            "id": str(
+                payment["_id"]
+            ),
+
+            "agreement_id": payment.get(
+                "agreement_id",
+                ""
+            ),
+
+            "unit_id": payment.get(
+                "unit_id",
+                ""
+            ),
+
+            "amount": amount,
+
+            "payment_date": payment.get(
+                "payment_date",
+                ""
+            ),
+
+            "payment_method": payment.get(
+                "payment_method",
+                "N/A"
+            ),
+
+            "status": status
+        })
+
+    return jsonify({
+
+        "tenant": {
+            "name": tenant.get(
+                "name",
+                ""
+            ),
+            "email": tenant.get(
+                "email",
+                ""
+            )
+        },
+
+        "summary": {
+            "total_paid": total_paid,
+            "paid_count": paid_count
+        },
+
+        "payments": payment_list
+
+    }), 200

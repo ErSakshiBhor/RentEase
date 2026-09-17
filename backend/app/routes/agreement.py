@@ -265,3 +265,196 @@ def terminate_agreement(agreement_id):
     return jsonify({
         "message": "Rental agreement terminated successfully"
     }), 200
+
+
+# ==========================================
+# Tenant - My Agreements
+# ==========================================
+
+@agreement_bp.route("/my-agreements", methods=["GET"])
+@jwt_required()
+def get_my_agreements():
+
+    current_user_id = get_jwt_identity()
+    claims = get_jwt()
+
+    # Only tenants can access their agreements
+    if claims.get("role") != "tenant":
+        return jsonify({
+            "message": "Only tenants can view their agreements"
+        }), 403
+
+    db = agreement_bp.db
+
+    # Find tenant
+    tenant = db.users.find_one({
+        "_id": ObjectId(current_user_id),
+        "role": "tenant"
+    })
+
+    if not tenant:
+        return jsonify({
+            "message": "Tenant not found"
+        }), 404
+
+    # Find all agreements of logged-in tenant
+    agreements = db.rental_agreements.find({
+        "tenant_id": current_user_id
+    }).sort(
+        "start_date",
+        -1
+    )
+
+    agreement_list = []
+
+    for agreement in agreements:
+
+        unit = None
+        property_data = None
+
+        # Find unit
+        unit_id = agreement.get("unit_id")
+
+        if unit_id and ObjectId.is_valid(unit_id):
+
+            unit = db.units.find_one({
+                "_id": ObjectId(unit_id)
+            })
+
+        # Find property
+        if unit:
+
+            property_id = unit.get("property_id")
+
+            if property_id and ObjectId.is_valid(property_id):
+
+                property_data = db.properties.find_one({
+                    "_id": ObjectId(property_id)
+                })
+
+        agreement_list.append({
+
+            "id": str(agreement["_id"]),
+
+            "status": agreement.get(
+                "status",
+                ""
+            ),
+
+            "start_date": agreement.get(
+                "start_date",
+                ""
+            ),
+
+            "end_date": agreement.get(
+                "end_date",
+                ""
+            ),
+
+            "monthly_rent": agreement.get(
+                "monthly_rent",
+                0
+            ),
+
+            "security_deposit": agreement.get(
+                "security_deposit",
+                0
+            ),
+
+            "unit": {
+                "id": (
+                    str(unit["_id"])
+                    if unit
+                    else ""
+                ),
+                "unit_number": (
+                    unit.get(
+                        "unit_number",
+                        ""
+                    )
+                    if unit
+                    else ""
+                ),
+                "unit_type": (
+                    unit.get(
+                        "unit_type",
+                        ""
+                    )
+                    if unit
+                    else ""
+                ),
+                "monthly_rent": (
+                    unit.get(
+                        "monthly_rent",
+                        0
+                    )
+                    if unit
+                    else 0
+                )
+            },
+
+            "property": {
+                "id": (
+                    str(property_data["_id"])
+                    if property_data
+                    else ""
+                ),
+                "name": (
+                    property_data.get(
+                        "name",
+                        ""
+                    )
+                    if property_data
+                    else ""
+                ),
+                "address": (
+                    property_data.get(
+                        "address",
+                        ""
+                    )
+                    if property_data
+                    else ""
+                ),
+                "city": (
+                    property_data.get(
+                        "city",
+                        ""
+                    )
+                    if property_data
+                    else ""
+                ),
+                "state": (
+                    property_data.get(
+                        "state",
+                        ""
+                    )
+                    if property_data
+                    else ""
+                ),
+                "pincode": (
+                    property_data.get(
+                        "pincode",
+                        ""
+                    )
+                    if property_data
+                    else ""
+                )
+            }
+        })
+
+    return jsonify({
+
+        "tenant": {
+            "name": tenant.get(
+                "name",
+                ""
+            ),
+            "email": tenant.get(
+                "email",
+                ""
+            )
+        },
+
+        "agreements": agreement_list
+
+    }), 200

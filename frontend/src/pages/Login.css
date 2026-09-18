@@ -172,3 +172,10 @@
 .login-card p{
     margin-top: 10px;
 }
+
+.login-card p a {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+  pointer-events: auto;
+}

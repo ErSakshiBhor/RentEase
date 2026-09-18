@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import api from "../services/api";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -119,6 +120,7 @@ navigate("/login");
             <button type="submit">
               Create Account
             </button>
+            <p>Already have an account? <Link to="/login">Login here</Link></p>
 
           </form>
 

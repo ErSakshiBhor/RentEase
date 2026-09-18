@@ -9,11 +9,15 @@ from app.routes.agreement import agreement_bp
 from flask_cors import CORS
 from app.routes.dashboard import dashboard_bp
 from app.routes.payment import payment_bp
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 # Connect to MongoDB
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient(os.getenv("MONGO_URI"))
 
 
 # Select database
@@ -29,7 +33,7 @@ dashboard_bp.db = db
 payment_bp.db = db
 
 # JWT configuration
-app.config["JWT_SECRET_KEY"] = "rentease-secret-key"
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 
 # Initialize JWT
 jwt = JWTManager(app)

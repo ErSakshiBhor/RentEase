@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import api from "../services/api";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import { Link } from "react-router-dom";
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -118,7 +120,7 @@ const Login = () => {
             <button type="submit">
               Login
             </button>
-            <p>Don't have account? Click here</p>
+            <p>Don't have account? <Link to="/register">Click here</Link></p>
 
           </form>
 

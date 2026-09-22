@@ -167,3 +167,130 @@
 .register-card button:hover {
   background: #5f8fdf;
 }
+
+
+
+/* =========================
+   Mobile Responsive
+========================= */
+
+@media (max-width: 768px) {
+
+  .register-page {
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* Left Section */
+  .register-left {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px 20px;
+    min-height: auto;
+  }
+
+  .brand {
+    gap: 10px;
+  }
+
+  .brand-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 20px;
+  }
+
+  .brand h2 {
+    font-size: 21px;
+  }
+
+  .register-content {
+    max-width: 100%;
+    margin: 30px 0 0;
+    transform: none;
+  }
+
+  .register-content h1 {
+    font-size: 34px;
+    line-height: 1.2;
+    margin-bottom: 15px;
+  }
+
+  .register-content p {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* Right Section */
+  .register-right {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px 20px;
+    align-items: flex-start;
+  }
+
+  .register-card {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 30px 22px;
+    border-radius: 16px;
+  }
+
+  .register-card h1 {
+    font-size: 26px;
+  }
+
+  .register-subtitle {
+    font-size: 14px;
+    margin-bottom: 25px;
+  }
+
+  .input-group {
+    margin-bottom: 18px;
+  }
+
+  .input-group input,
+  .input-group select {
+    width: 100%;
+    padding: 13px;
+    font-size: 15px;
+  }
+
+  .register-card button {
+    padding: 13px;
+    font-size: 15px;
+  }
+}
+
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+
+  .register-left {
+    padding: 25px 16px;
+  }
+
+  .register-content {
+    margin-top: 25px;
+  }
+
+  .register-content h1 {
+    font-size: 30px;
+  }
+
+  .register-content p {
+    font-size: 14px;
+  }
+
+  .register-right {
+    padding: 25px 16px;
+  }
+
+  .register-card {
+    padding: 25px 18px;
+  }
+
+  .register-card h1 {
+    font-size: 24px;
+  }
+}
